@@ -1,0 +1,171 @@
+/* Controls */
+div.angst-component
+{
+    height: 40px;
+    padding-top: 3px;
+}
+
+label.angst-nlabel
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    color:#f6931f;
+    font-weight:bold
+}
+
+.angst-ntext
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    border: 0;
+    padding-bottom: 3px;
+    color:#f6931f
+}
+
+div.angst-nslider
+{
+    width: 70%;
+}
+
+div.angst-block-header
+{
+    font-family: sans-serif;
+    font-size: 14px;
+    border: 0;
+    color:#01599a;
+    font-weight:bold
+}
+
+.angst-block
+{
+    display: inline-block;
+    vertical-align: top;
+    width: 33%;
+}
+
+/* Title */
+#angst-title
+{
+    font-family: sans-serif;
+    font-size: 30px;
+    text-shadow: #bbb 2px 2px 2px;
+    display: inline-block;
+}
+
+#angst-version
+{
+    display: inline;
+    font-family: sans-serif;
+    font-size: 10px;
+    margin-left: 6px;
+}
+
+/* Input */
+#angst-tip
+{
+    font-family: sans-serif;
+    font-size: 12px;
+    margin-top: 12px;
+}
+
+#angst-subject-selector
+{
+    font-family: sans-serif;
+    font-size: 12px;
+    float: right;
+    display: inline;
+}
+
+#angst-input
+{
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 100%;
+}
+
+#angst-expression
+{
+    border: none;
+    border-bottom: 1px solid;
+    font-weight: bold;
+    font-size: 12px;
+    width: 100%;
+}
+
+/* Main */
+#angst-controls
+{
+    margin-top: 12px;
+    margin-left: 1%;
+}
+
+#angst-result
+{
+    font-family: sans-serif;
+    font-size: 22px;
+    padding-top:12px;
+}
+
+#angst-error-msg
+{
+    font-family: sans-serif;
+    font-size: 22px;
+    padding-bottom: 12px;
+    color: #a40000;
+}
+
+/*Grade*/
+#angst-grade
+{
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.angst-green
+{
+    display: inline;
+    color: #4e9a06;
+}
+
+.angst-yellow
+{
+    display: inline;
+    color: #c4a000;
+}
+
+.angst-red
+{
+    display: inline;
+    color: #a40000;
+}
+
+/*Help*/
+#angst-help
+{
+    font-family: sans-serif;
+    font-size: 10px;
+    width: 50%;
+}
+
+#angst-help-title
+{
+    font-weight: bold;
+}
+
+#angst-help-content
+{
+    display: none;
+}
+
+#angst-help-expression
+{
+    font-family: monospace;
+    font-size: 10px;
+    padding-left: 12px;
+}
+
+#angst-disclaimer
+{
+    font-family: sans-serif;
+    font-size: 8px;
+}
