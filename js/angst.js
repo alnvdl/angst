@@ -2,9 +2,6 @@
 function get_data()
 {
     return [
-        {course: "Ciência da Computação - UFSCar, Sorocaba",
-         disciplines:
-         [
             {name: "Laboratório de Sistemas Operacionais",
              expr: "Exercícios Individuais(E1, E2, E3, E4):5; Exercício em grupo(EG):5;"},
 
@@ -31,7 +28,7 @@ function get_data()
 
             {name: "Cálculo II",
              expr: "Provas(P1, P2, P3)"},
-         ]}];
+         ];
 }
 
 // Load the disciplines data into the select element
@@ -42,24 +39,18 @@ function load_subject_selector()
     
     default_option = document.createElement("option");
     default_option.value = "";
-    default_option.appendChild(document.createTextNode("-"));
+    default_option.appendChild(document.createTextNode("Selecione uma disciplina"));
     select.appendChild(default_option);
-    select.appendChild
-    for (var i=0; i < data.length; i++)
+    for (var j = 0; j < data.length; j++)
     {
-        var course = data[i];
-        var optgroup = document.createElement("optgroup");
-        optgroup.label = course.course;
-        for (var j = 0; j < course.disciplines.length; j++)
-        {
-            var discipline = course.disciplines[j];
-            var option = document.createElement("option");
-            option.appendChild(document.createTextNode(discipline.name));
-            option.value = discipline.expr;
-            optgroup.appendChild(option);
-        }
-        select.appendChild(optgroup);
+        var discipline = data[j];
+        var option = document.createElement("option");
+        option.appendChild(document.createTextNode(discipline.name));
+        option.value = discipline.expr;
+        select.appendChild(option);
     }
+
+    $("#angst-subjects").selectmenu("refresh");
 }
 
 // Stuff to do when the document is ready
@@ -94,10 +85,9 @@ $(document).ready(function()
 
     // Set the subject selector
     load_subject_selector();
-    $("#angst-subjects").change(function(e)
+    $("#angst-subjects").bind("change", function(event, ui)
     {
-        var selector = $(this);
-        load(selector.attr("options")[selector.attr("selectedIndex")].value);
+        load($(this).val());
     });
 
     // Load nothing
@@ -118,7 +108,7 @@ function Component(id, weight)
     // Get the weighted value for the component
     this.get_value = function()
     {
-        var value = parseFloat($("#angst-" + this.id + "-text").attr("value"));
+        var value = parseFloat($("#" + this.slider_id).val());
         return this.weight * value;
     }
 
@@ -127,9 +117,10 @@ function Component(id, weight)
     {
         var html = ["<div id='", this.id, "' class='angst-component'>",
                     "<label class='angst-nlabel' for='", this.input_id, "'>",
-                    this.name, ": </label><input type='text' id=", 
-                    this.input_id, " class='angst-ntext' /><div id='",
-                    this.slider_id, "' class='angst-nslider'></div></div>"];
+                    this.name, ": </label><input type='range'",
+                    "min='0.0' max='10.0' step='0.1' value='6.0' data-highlight='true'",
+                    " id='", this.slider_id, "' class='angst-nslider' data-mini='true' /></div>"];
+                    
         return html.join("");
     }
 }
@@ -165,13 +156,14 @@ function Block(id, weight, components)
         var html = ["<div class='angst-block'>", 
                     "<div class='angst-block-header'>",
                     this.name,
-                    "</div>"];
+                    "</div>",
+                    "<div class='angst-block-content'>"];
         
         for (i = 0; i < this.components.length; i++)
         {
             html.push(this.components[i].create_fields());
         }
-        html.push("</div>");
+        html.push("</div></div>");
         
         return html.join("");
     }
@@ -403,30 +395,8 @@ function Parser(input)
 // Initialize and set the text inputs and their respective sliders
 function set_sliders(subject)
 {
-    $(".angst-nslider").slider(
-    {
-	    range: "min",
-	    min: 0,
-	    max: 100,
-	    value: 60,
-	    slide: function(event, ui)
-	    {
-	        var id = this.id.split("-")[1];
-                $("#angst-" + id + "-text").val(ui.value/10);
-                update_result(subject);
-            }
-    });
-    
-    // Set the starting value for the text inputs
-    $(".angst-ntext").val(6.0);
-    
-    // Sync the text inputs with the sliders
-    $(".angst-ntext").keyup(
-    function (event)
-    {
-        var slider_id = this.id.split("-")[1];
-        var value = $("#angst-" + slider_id + "-text").val();
-        $("#angst-" + slider_id + "-slider").slider("value", value * 10);
+    $(".angst-nslider").slider();
+    $(".angst-nslider").bind("change", function(event, ui) {
         update_result(subject);
     });
 }
@@ -482,8 +452,9 @@ function clear(input, main, error)
         $("#angst-expression").val("");
     if (main)
     {
-        $("#angst-main").css("display", "none");
+        $("#angst-controls").css("display", "none");
         $("#angst-controls").empty();
+        $("#angst-grade").attr("class", "").html("-");
     }
     if (error)
         $("#angst-error-msg").css("display", "none");
@@ -491,13 +462,20 @@ function clear(input, main, error)
 
 function show_grade(grade)
 {
-    $("#angst-controls").html(grade.create_fields());
+    $("#angst-controls").html(grade.create_fields()).trigger("create");
     $("#angst-error-msg").css("display", "none");
-    $("#angst-main").css("display", "block");
+    $("#angst-controls").css("display", "block");
 }
 
 function show_error(error)
 {
     clear(false, true, false);
     $("#angst-error-msg").css("display", "block").html(error);
+}
+
+function pos() {
+    var height = $("#angst-header").height() * 1.10;
+    $("#angst-controls").css("top", height);
+    $("#angst-header").width($("#angst").width());
+    window.onresize = function(){ pos(); };
 }

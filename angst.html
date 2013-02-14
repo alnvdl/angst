@@ -9,72 +9,190 @@
 
         <title>Angst</title>
 
-        <link type="text/css" 
-        href="http://code.jquery.com/ui/1.7.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+        <link rel="stylesheet" href="themes/Angst.min.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0-rc.1/jquery.mobile.structure-1.3.0-rc.1.min.css" />
+        <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.3.0-rc.1/jquery.mobile-1.3.0-rc.1.min.js"></script>
         
-        <link type="text/css" href="css/angst.css" rel="stylesheet" />
-
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script> 
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script> 
         <script type="text/javascript" src="js/angst.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
+        <style>
+        * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+        
+        @media all and (min-width: 1024px) {
+            #angst {
+                width: 1024px !important;
+                margin: 0 auto !important;
+                position: relative !important;
+            }
+            
+            .angst-block-content {
+                padding: 16px;
+                display: table;
+                width: 100%;
+            }
+            
+            .angst-block {
+                width: 50%;
+            }            
+            
+            .angst-block:nth-child(even){
+                float: right;
+            }
+            
+            .angst-block:nth-child(odd){
+                float: left;
+            }
+        }
+
+        @media all and (max-width: 1024px) {
+            #angst {
+                margin: 8px;
+            }
+                
+            .angst-block {
+                width: 100%;
+            }
+                            
+            .angst-block-content {
+                padding: 8px;
+                display: table;
+                width: 100%;                
+            }
+        }
+        
+        .angst-component {
+            display: table-row;
+        }
+        
+        .angst-component > * {
+            display: table-cell !important;
+            vertical-align: middle;
+            height: 50px;                        
+        }
+        
+        .angst-nlabel {
+            max-width: 64px;
+            width: 32px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .angst-block-header {
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        #angst-header {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            border-bottom: 1px solid #aaa;
+            
+        }
+
+        #angst-controls {
+            position: absolute;
+            width: 100%;
+        }
+        
+        #angst-result {
+            float: right;
+            font-weight: bold;
+        }
+        
+        .angst-red {
+            color: red;
+        }
+        .angst-yellow {
+            color: orange;
+        }
+        .angst-green {
+            color: limegreen;
+        }
+        #angst-error-msg {
+            float: left;
+            color: red;
+        }
+        
+        #angst-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        </style>
+                
     </head>
 
-    <body>
-        <div id="angst-title">Angst<div id="angst-version">2010/1</div></div>
-
-        <div id="angst-subject-selector">
-            <label for="angst-subjects">Disciplina: </label>
-            <select id="angst-subjects"></select>
-        </div>
-
-        <div id="angst-input">
-            <div id="angst-tip">Selecione uma disciplina acima ou digite uma
-                                expressão abaixo:</div>
-            <input type="text" id="angst-expression"/>
-        </div>
-        
-        <div id="angst-error-msg"></div>
-        <div id="angst-main">
-            <div id="angst-controls"></div>
-            <div id="angst-result">Nota: <div id="angst-grade"></div></div>
-        </div>
-
-        <div id="angst-help">
-            <div id="angst-help-title">Ajuda</div>
-            <div id="angst-help-content">
-                Exemplo de expressão:
-                <div id="angst-help-expression">
-                    Descrição do bloco 1(C1:x, C2):7; Descrição do bloco 2(D1,
-                    D2):3
+    <body onload="pos()">
+        <div id="angst">
+            <div id="angst-header">
+                <div id="angst-title">Angst</div>
+                
+                <div id="angst-tip">Selecione uma disciplina ou digite uma
+                                    expressão:</div>
+                                        
+                <div id="angst-subject-selector">
+                    <select id="angst-subjects" data-native-menu="false" data-mini="true">
+                    </select>
                 </div>
 
-                <p>
-                A descrição do bloco é o nome dado ao conjunto de componentes
-                indicados dentro dos parênteses.
-                </p>
-
-                <p>
-                Dentro dos parênteses podem haver inúmeros componentes com
-                códigos iniciados por uma letra.
-                Não podem haver códigos repetidos.
-                </p>
-
-                <p>
-                Um peso pode ser indicado após a declaração de um componente ou
-                bloco usando dois pontos (:) e em seguida um número.
-                Caso não haja indicação, o peso 1 será assumido.
-                </p>
-
-                <p>
-                Blocos devem ser separados por um ponto e vírgula (;).
-                </p>
-
-                <p>
-                É possível digitar as notas manualmente nos campos.
-                </p>
+                <div id="angst-input">
+                    <input type="text" id="angst-expression" data-mini="true"/>
+                </div>
+                <div id="angst-error-msg"></div>
+                
+                <div id="angst-result">Média: <span id="angst-grade">-</span></div>
             </div>
-            <div id="angst-disclaimer">Angst é provida como mero utilitário e os
-                cálculos efetuados não apresentam nenhuma garantia de
-                precisão.</div>
+               
+            <div id="angst-controls"></div>
+        </div>
     </body>
+    
+<!--        <div id="angst-help">-->
+<!--            <div id="angst-help-title">Ajuda</div>-->
+<!--            <div id="angst-help-content">-->
+<!--                Exemplo de expressão:-->
+<!--                <div id="angst-help-expression">-->
+<!--                    Descrição do bloco 1(C1:x, C2):7; Descrição do bloco 2(D1,-->
+<!--                    D2):3-->
+<!--                </div>-->
+
+<!--                <p>-->
+<!--                A descrição do bloco é o nome dado ao conjunto de componentes-->
+<!--                indicados dentro dos parênteses.-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                Dentro dos parênteses podem haver inúmeros componentes com-->
+<!--                códigos iniciados por uma letra.-->
+<!--                Não podem haver códigos repetidos.-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                Um peso pode ser indicado após a declaração de um componente ou-->
+<!--                bloco usando dois pontos (:) e em seguida um número.-->
+<!--                Caso não haja indicação, o peso 1 será assumido.-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                Blocos devem ser separados por um ponto e vírgula (;).-->
+<!--                </p>-->
+
+<!--                <p>-->
+<!--                É possível digitar as notas manualmente nos campos.-->
+<!--                </p>-->
+<!--            </div>-->
+<!--            <div id="angst-disclaimer">Angst é provida como mero utilitário e os-->
+<!--                cálculos efetuados não apresentam nenhuma garantia de-->
+<!--                precisão.-->
+<!--            </div>-->
+    
 </html>
