@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <!--Angst-->
+        <!--Calculadora de médias simples e fácil de usar.-->
+        <!--Autor: Allan Vidal-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="author" content="Allan Vidal">
+
+        <title>Angst</title>
+
+
+        <link type="text/css" href="css/jquery-ui.css" rel="stylesheet" /> <!-- 1.7.3 ui-lightness theme -->
+        <link type="text/css" href="css/angst.css" rel="stylesheet" />
+
+        <script src="js/jquery-1.4.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script> <!-- 1.7.3 jQuery UI -->
+        <script type="text/javascript" src="js/angst.js"></script>
+    </head>
+
+    <body>
+        <div id="angst-title">Angst<div id="angst-version">2010/1</div></div>
+
+        <div id="angst-subject-selector">
+            <label for="angst-subjects">Disciplina: </label>
+            <select id="angst-subjects"></select>
+        </div>
+
+        <div id="angst-input">
+            <div id="angst-tip">Selecione uma disciplina acima ou digite uma
+                                expressão abaixo:</div>
+            <input type="text" id="angst-expression"/>
+        </div>
+
+        <div id="angst-error-msg"></div>
+        <div id="angst-main">
+            <div id="angst-controls"></div>
+            <div id="angst-result">Nota: <div id="angst-grade"></div></div>
+        </div>
+
+        <div id="angst-help">
+            <div id="angst-help-title">Ajuda</div>
+            <div id="angst-help-content">
+                Exemplo de expressão:
+                <div id="angst-help-expression">
+                    Descrição do bloco 1(C1:x, C2):7; Descrição do bloco 2(D1,
+                    D2):3
+                </div>
+
+                <p>
+                A descrição do bloco é o nome dado ao conjunto de componentes
+                indicados dentro dos parênteses.
+                </p>
+
+                <p>
+                Dentro dos parênteses podem haver inúmeros componentes com
+                códigos iniciados por uma letra.
+                Não podem haver códigos repetidos.
+                </p>
+
+                <p>
+                Um peso pode ser indicado após a declaração de um componente ou
+                bloco usando dois pontos (:) e em seguida um número.
+                Caso não haja indicação, o peso 1 será assumido.
+                </p>
+
+                <p>
+                Blocos devem ser separados por um ponto e vírgula (;).
+                </p>
+
+                <p>
+                É possível digitar as notas manualmente nos campos.
+                </p>
+            </div>
+            <div id="angst-disclaimer">Angst é provida como mero utilitário e os
+                cálculos efetuados não apresentam nenhuma garantia de
+                precisão.</div>
+    </body>
+</html>
